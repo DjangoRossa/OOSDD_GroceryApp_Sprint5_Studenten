@@ -1,7 +1,9 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Grocery.Core.Interfaces.Services;
 using Grocery.Core.Models;
-using System.Collections.ObjectModel;
+using Grocery.Core.Services;
 
 namespace Grocery.App.ViewModels
 {    
@@ -15,6 +17,8 @@ namespace Grocery.App.ViewModels
         // The currently selected category, set via navigation or directly.
         [ObservableProperty]
         private Category category = new(0, "None");
+
+        private string searchText = string.Empty;
 
         public ProductCategoriesViewModel(IProductCategoryService productCategoryService)
         {
@@ -34,6 +38,31 @@ namespace Grocery.App.ViewModels
         partial void OnCategoryChanged(Category value)
         {
             LoadProductCategoriesByCategory(value);
+        }
+
+        private void GetProductCategoriesBySearch()
+        {
+            ProductCategories.Clear();
+            var productCategories = _productCategoryService.GetAllOnCategoryId(category.Id);
+
+            foreach (var productCategory in productCategories)
+            {
+                // Search by Product.Name (case-insensitive)
+                if (string.IsNullOrWhiteSpace(searchText) ||
+                    (productCategory.Product != null &&
+                     productCategory.Product.name != null &&
+                     productCategory.Product.name.Contains(searchText, StringComparison.OrdinalIgnoreCase)))
+                {
+                    ProductCategories.Add(productCategory);
+                }
+            }
+        }
+
+        [RelayCommand]
+        public void PerformSearch(string searchText)
+        {
+            this.searchText = searchText;
+            GetProductCategoriesBySearch();
         }
     }
 }

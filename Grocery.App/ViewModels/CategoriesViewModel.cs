@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using AndroidX.Navigation;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Grocery.App.Views;
