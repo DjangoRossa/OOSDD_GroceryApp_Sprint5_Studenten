@@ -9,28 +9,18 @@ using System.Threading.Tasks;
 
 namespace Grocery.Core.Services
 {
-    public class CategoryService : ICategoryService
+    public class CategoryService :  ICategoryService
     {
         private readonly ICategoryRepository _categoryRepository;
+
         public CategoryService(ICategoryRepository categoryRepository)
         {
             _categoryRepository = categoryRepository;
         }
 
-        public Category? Get(string name)
-        {
-            return _categoryRepository.Get(name);
-        }
-
-        public Category? Get(int id)
-        {
-            return _categoryRepository.Get(id);
-        }
-
         public List<Category> GetAll()
         {
-            List<Category> categories = _categoryRepository.GetAll();
-            return categories;
+            return _categoryRepository.GetAll();
         }
     }
 }

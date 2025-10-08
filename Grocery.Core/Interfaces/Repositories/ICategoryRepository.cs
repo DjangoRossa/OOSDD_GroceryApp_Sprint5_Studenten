@@ -9,8 +9,7 @@ namespace Grocery.Core.Interfaces.Repositories
 {
     public interface ICategoryRepository
     {
-        public Category? Get(string name);
-        public Category? Get(int id);
         public List<Category> GetAll();
+
     }
 }
